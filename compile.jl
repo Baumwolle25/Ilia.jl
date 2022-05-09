@@ -2,9 +2,9 @@ using Pkg
 
 cd("..")
 Pkg.activate(".")
-Pkg.instatiate()
+Pkg.instantiate()
 
 Pkg.add("PackageCompiler")
 using PackageCompiler
 
-create_app("Ilia", "Ilia")
+create_app("Ilia", "Ilia_Compiled")

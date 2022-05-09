@@ -6,11 +6,15 @@ Authors:
 
 ## Goals
 - This is my practice for software architecture and project developement in Julia.
-- design and implement Tests
 - learn OpenGL and Shader Language
 
-## Requirements
-- configure `startup.jl`
-- run `Main.jl` using `julia Main.jl`
+## Use
+The files: 
+- `start.jl`
+- `compile.jl`
+do what you expect them to do, just run them using the terminal.
 
-My `startup.jl` will manage the dependencies.
+## To-Do
+- work out healthy `module` architecture
+- work out how to test code
+- figure out the mess that are modules

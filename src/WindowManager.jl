@@ -1,8 +1,6 @@
 module WindowManager
 
-using GLFW
-
-export get
+using ..GLFW
 
 # group and organize data
 mutable struct window

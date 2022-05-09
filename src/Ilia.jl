@@ -9,7 +9,6 @@ function julia_main()::Cint
     win = WindowManager.get()
     win = WindowManager.run(win)
 
-    print("Exited with Error Code: ")
     return 0
 end
 
