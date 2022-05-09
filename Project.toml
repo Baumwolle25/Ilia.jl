@@ -1,12 +1,12 @@
-authors = ["Anton Stimmer <stimmer.anton@hm.edu>"]
 name = "Ilia"
 uuid = "1e147d60-ee96-4319-8ac2-1ffcd70eef95"
+authors = ["Anton Stimmer <stimmer.anton@hm.edu>"]
 version = "0.0.1"
-
-[compat]
-GLFW = "3.0.0"
-ModernGL = "1.0.0"
 
 [deps]
 GLFW = "f7f18e0c-5ee9-5ccd-a5bf-e8befd85ed98"
 ModernGL = "66fc600b-dfda-50eb-8b99-91cfa97b1301"
+
+[compat]
+GLFW = "3.0.0"
+ModernGL = "1.0.0"

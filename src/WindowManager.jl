@@ -2,9 +2,9 @@ module WindowManager
 
 using GLFW
 
-include("Node.jl")
+export get
 
-# multiple dispatch
+# group and organize data
 mutable struct window
     width
     heigth
@@ -16,26 +16,26 @@ mutable struct window
     window() = new(1280, 720, "Ilia.jl")
 end
 
+# Singelton
+_w = window()
+
 function get()::window
-    return w = window()
+    global _w
+    return _w
 end
 
 # methods with multiple dispatch
 function run(w::window)
     println("GLFW making the world turn with v", GLFW.GetVersion())
 
-    _init(w)
+    _pre(w)
     _loop(w)
+    _post(w)
 end
 
-function _init(w::window)
-    # where errors get printet to, propably done in GLFW already
-    GLFW.SetErrorCallback(throw)
-
-    # initialize GLFW
-    if (!GLFW.Init())
-        throw(ErrorException("Unable to initialize GLFW."))
-    end
+function _pre(w::window)
+    # set error callback and load glfw
+    GLFW.__init__()
 
     # configure GLFW
     GLFW.DefaultWindowHints()
@@ -64,6 +64,16 @@ function _loop(w::window)
 
         GLFW.SwapBuffers(w.openGLpointer)
     end
+end
+
+function _post(w::window)
+    # terminate already called because of __init__
+    GLFW.DestroyWindow(w.openGLpointer)
+    GLFW.SetErrorCallback(nothing)
+
+    # force garbage collection
+    GC.gc()
+    println("GLFW says: Goodbye!")
 end
 
 function changeScene(w::window, index::Int)

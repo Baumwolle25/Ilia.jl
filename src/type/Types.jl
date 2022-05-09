@@ -1,3 +1,0 @@
-module Types
-
-end
