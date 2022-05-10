@@ -6,9 +6,10 @@ mutable struct Mouse
     lastX::Number
     lastY::Number
     isDraging::Bool
-    mouseButtonPressed::Array{Bool,1}
-    # array with booleans of 1 demension filled with false and a length of 7
-    mouse() = new(0, 0, 0, 0, 0, 0, false, Array{Bool,1}(undef, 7))
+    mouseButtonPressed::Dict{GLFW.MouseButton,Bool}
+
+    Mouse() = new(0, 0, 0, 0, 0, 0, false, Dict{GLFW.Key,Bool}())
+    Mouse(; scrollX=0, scrollY=0, xPos=0, yPos=0, lastX=0, lastY=0, isDraging=false, mouseButtonPressed=Dict{GLFW.Key,Bool}()) = new(scrollX, scrollY, xPos, yPos, lastX, lastY, isDraging, mouseButtonPressed)
 end
 
 function mousePosCallback(m::Mouse, window, xpos, ypos)
@@ -16,10 +17,12 @@ function mousePosCallback(m::Mouse, window, xpos, ypos)
     m.lastY = m.yPos
     m.xPos = xpos
     m.yPos = ypos
+    # draging = moving with a pressed button
+    m.isDraging = true in values(m.mouseButtonPressed)
 end
 
 function mouseButtonCallback(m::Mouse, window, button, action, mods)
-    if action == GLFW.PRESS | action == GLFW.REPEAT
+    if action == GLFW.PRESS
         m.mouseButtonPressed[button] = true
     elseif action == GLFW.RELEASE
         m.mouseButtonPressed[button] = false
@@ -27,6 +30,26 @@ function mouseButtonCallback(m::Mouse, window, button, action, mods)
     end
 end
 
-function mouseScrollCallback()
+function mouseScrollCallback(m::Mouse, window, xOffset, yOffset)
+    m.scrollX = xOffset
+    m.scrollY = yOffset
+end
 
+function endFrame(m::Mouse)
+    m.scrollX = 0
+    m.scrollY = 0
+    m.lastX = m.xPos
+    m.lastY = m.yPos
+end
+
+function deltaX(m::Mouse)
+    return m.lastX - m.xPos
+end
+
+function deltaY(m::Mouse)
+    return m.lastY - m.yPos
+end
+
+function isButtonPressed(m::Mouse, button)
+    return m.mouseButtonPressed[button]
 end

@@ -7,7 +7,10 @@ mutable struct Window
     currentScene::Number
 
     # openGLpointer & currentScene get initialized as ::Undef
+    # standart empty consructor
     Window() = new(1280, 720, "Ilia.jl")
+    # constructor with keyword arguments
+    Window(; width=1280, heigth=720, title="Ilia.jl", openGLpointer=undef, currentScene=undef) = new(width, heigth, title, openGLpointer, currentScene)
 end
 
 # methods with multiple dispatch
@@ -33,6 +36,9 @@ function _pre(w::Window)
     if w == 0
         throw(ErrorException("Failed to create GLFW Window."))
     end
+
+    # set callbacks
+    setCallbacks(w.openGLpointer)
 
     # make OpenGL context current
     GLFW.MakeContextCurrent(w.openGLpointer)

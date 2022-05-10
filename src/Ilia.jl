@@ -9,13 +9,15 @@ Threads.nthreads() = Sys.CPU_THREADS
 
 # organize modules
 include("EventListeners/MouseListener.jl")
+include("EventListeners/KeyListener.jl")
+include("CallbackManager.jl")
 include("WindowManager.jl")
 
 # application start
 function julia_main()::Cint
 
-    window = Window()
-    window = run(window)
+    global w = Window()
+    w = run(w)
 
     return 0
 end

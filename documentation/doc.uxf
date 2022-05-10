@@ -7,14 +7,12 @@
 - window:Window
 - currentScene: Scene
 --
-- Window()
-+ get():Window
-- init()
+- pre()
 - loop()
+- post()
 + run()
-+ changeScene(int)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1110</x><y>530</y><w>280</w><h>380</h></coordinates><panel_attributes>module: MouseListener
++ changeScene(int)</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1110</x><y>530</y><w>280</w><h>310</h></coordinates><panel_attributes>module: MouseListener
 --
-- mouselistener: MouseListener
 - scrollX: double
 - scrollY: double
 - xPos: double
@@ -24,14 +22,8 @@
 - isDraging: boolean
 - mouseButtenPressed: boolean[]
 --
-- MouseListener()
-+ get(): MouseListener
-+ getX(): float
-+ getY(): float
-+ getDx(): float
-+ getDy(): float
-+ getScrollX(): float
-+ getScrollY(): float
++ Dx(): float
++ Dy(): float
 + mouseButtonDown(int): boolean
 + isDragging(): boolean
 + mousePosCallback(long, double, double)
@@ -40,18 +32,14 @@
 + endFrame()
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1110</x><y>1200</y><w>280</w><h>100</h></coordinates><panel_attributes>module: JoystickListener
 --
-- joyStickListener: JoystickListener
 - joysticks: boolean[]
 --
 - JoystickListener
 + get(): JoystickListener
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1110</x><y>990</y><w>280</w><h>130</h></coordinates><panel_attributes>module: KeyListener
 --
-- keyListener: KeyListener
 - keyPressed: boolean []
 --
-- KeyListener()
-+ get(): KeyListener
 + keyCallback(long, int, int, int, int)
 + isKeyPressed(int): boolean</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1110</x><y>1390</y><w>280</w><h>70</h></coordinates><panel_attributes>module: GamepadListener
 --
@@ -64,7 +52,6 @@
 + main()
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>270</x><y>270</y><w>240</w><h>130</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>220;50;220;10;50;10;50;110;10;110</additional_attributes></element><element><id>Relation</id><coordinates><x>1020</x><y>480</y><w>250</w><h>220</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>230;50;230;10;70;10;70;200;10;200</additional_attributes></element><element><id>Relation</id><coordinates><x>1020</x><y>670</y><w>250</w><h>740</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>230;720;230;670;70;670;70;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1020</x><y>670</y><w>250</w><h>340</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>230;320;230;280;70;280;70;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1020</x><y>670</y><w>250</w><h>550</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>230;530;230;490;70;490;70;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>749</x><y>820</y><w>280</w><h>160</h></coordinates><panel_attributes>module: Time
 --
-- time: Time
 _+ timeStarted: float_
 - frameTimeStart: float
 - frameTimeEnd: float
@@ -91,4 +78,4 @@ _+ timeStarted: float_
 --
 - 
 --
-+ </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>460</y><w>280</w><h>170</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>260;150;260;10;10;10</additional_attributes></element></diagram>
++ setCallbacks()</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>460</y><w>280</w><h>170</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>260;150;260;10;10;10</additional_attributes></element></diagram>
