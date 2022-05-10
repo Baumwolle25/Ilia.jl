@@ -1,29 +1,17 @@
-module WindowManager
-
-using ..GLFW
-
 # group and organize data
-mutable struct window
-    width
-    heigth
-    title
-    openGLpointer
-    currentScene
+mutable struct Window
+    width::Number
+    heigth::Number
+    title::String
+    openGLpointer::GLFW.Window
+    currentScene::Number
 
     # openGLpointer & currentScene get initialized as ::Undef
-    window() = new(1280, 720, "Ilia.jl")
-end
-
-# Singelton
-_w = window()
-
-function get()::window
-    global _w
-    return _w
+    Window() = new(1280, 720, "Ilia.jl")
 end
 
 # methods with multiple dispatch
-function run(w::window)
+function run(w::Window)
     println("GLFW making the world turn with v", GLFW.GetVersion())
 
     _pre(w)
@@ -31,7 +19,7 @@ function run(w::window)
     _post(w)
 end
 
-function _pre(w::window)
+function _pre(w::Window)
     # set error callback and load glfw
     GLFW.__init__()
 
@@ -56,7 +44,7 @@ function _pre(w::window)
     GLFW.ShowWindow(w.openGLpointer)
 end
 
-function _loop(w::window)
+function _loop(w::Window)
     while !GLFW.WindowShouldClose(w.openGLpointer)
         GLFW.PollEvents()
 
@@ -64,8 +52,8 @@ function _loop(w::window)
     end
 end
 
-function _post(w::window)
-    # terminate already called because of __init__
+function _post(w::Window)
+    # terminate() already called because of __init__
     GLFW.DestroyWindow(w.openGLpointer)
     GLFW.SetErrorCallback(nothing)
 
@@ -74,8 +62,6 @@ function _post(w::window)
     println("GLFW says: Goodbye!")
 end
 
-function changeScene(w::window, index::Int)
+function changeScene(w::Window, index::Int)
     pass
-end
-
 end

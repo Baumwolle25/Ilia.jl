@@ -1,13 +1,21 @@
 module Ilia
 
-# includes all relevant files
-include("Node.jl")
+# all imports
+using GLFW
+using Base.Threads
+
+# set threads to max
+Threads.nthreads() = Sys.CPU_THREADS
+
+# organize modules
+include("EventListeners/MouseListener.jl")
+include("WindowManager.jl")
 
 # application start
 function julia_main()::Cint
 
-    win = WindowManager.get()
-    win = WindowManager.run(win)
+    window = Window()
+    window = run(window)
 
     return 0
 end

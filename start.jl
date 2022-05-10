@@ -1,5 +1,7 @@
 using Pkg
 
+push!(LOAD_PATH, "src/")
+
 Pkg.activate(".")
 Pkg.instantiate()
 

@@ -1,3 +1,0 @@
-module CallbackManager
-
-end
