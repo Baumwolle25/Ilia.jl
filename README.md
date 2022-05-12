@@ -12,9 +12,12 @@ Authors:
 The files: 
 - `start.jl`
 - `compile.jl`
+- `test.jl`
+  
 do what you expect them to do, just run them using the terminal.
 
 ## To-Do
 - work out healthy `module` architecture
 - work out how to test code
-- figure out the mess that are modules
+- multiple window support with common backend
+- run tests of my dependencies when testing my app

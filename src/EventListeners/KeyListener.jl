@@ -14,5 +14,8 @@ function keyCallback(k::Keyboard, window, key, scancode, action, mods)
 end
 
 function isKeyPressed(k::Keyboard, key)
-    return k.keyPressedi[key]
+    if !(key in keys(k.keyPressed))
+        k.keyPressed[key] = false
+    end
+    return k.keyPressed[key]
 end
