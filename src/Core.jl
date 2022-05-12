@@ -1,14 +1,13 @@
 # group and organize data
 mutable struct Core
     title::String
-    index::Int
-    windows::Dict{Int,Window}
+    windows::Array{Window,1}
 
     # openGLpointer & currentScene get initialized as ::Undef
     # standart empty consructor
-    Core() = new("Ilia.jl", 0, Dict{Int,Window}())
+    Core() = new("Ilia.jl", Array{Window,1}())
     # constructor with keyword arguments
-    Core(; title="Ilia.jl", index=0, windows=Dict{Int,Window}()) = new(title, index, windows)
+    Core(; title="Ilia.jl", windows=Array{Window,1}()) = new(title, windows)
 end
 
 # methods with multiple dispatch
@@ -16,14 +15,14 @@ function run(c::Core)
     println("GLFW making the world turn with v", GLFW.GetVersion())
 
     _pre(c)
-    println(c.index)
     _loop(c)
     _post(c)
 end
 
+
 function addWindow(c::Core)
-    c.index += 1
-    c.windows[c.index] = Window()
+    # array is ordered list so last() gives this new window
+    push!(c.windows, Window(; title=c.title))
 
     # configure GLFW
     GLFW.DefaultWindowHints()
@@ -31,25 +30,26 @@ function addWindow(c::Core)
     GLFW.WindowHint(GLFW.RESIZABLE, true)
     GLFW.WindowHint(GLFW.MAXIMIZED, true)
 
-    c.windows[c.index].openGLpointer = GLFW.CreateWindow(c.windows[c.index].width, c.windows[c.index].heigth, c.windows[c.index].title)
-    if c.windows[c.index].openGLpointer == undef
+    last(c.windows).openGLpointer = GLFW.CreateWindow(last(c.windows).width, last(c.windows).heigth, last(c.windows).title)
+    if last(c.windows).openGLpointer == undef
         throw(ErrorException("Failed to create GLFW Window."))
     end
 
     # set callbacks
-    setCallbacks(c.windows[c.index].openGLpointer)
+    setCallbacks(last(c.windows).openGLpointer)
 
-    GLFW.MakeContextCurrent(c.windows[c.index].openGLpointer)
+    GLFW.MakeContextCurrent(last(c.windows).openGLpointer)
 
     # make Window visible (after setup is complete)
-    GLFW.ShowWindow(c.windows[c.index].openGLpointer)
-    println("adding window")
+    GLFW.ShowWindow(last(c.windows).openGLpointer)
 end
 
 function removeWindow(c::Core, index)
-    println("removing window")
-    c.index -= 1
+    # let glfw handle stuff
     GLFW.DestroyWindow(c.windows[index].openGLpointer)
+
+    # clean up Core
+    popat!(c.windows, index)
 end
 
 function _pre(c::Core)
@@ -62,49 +62,50 @@ function _pre(c::Core)
     GLFW.WindowHint(GLFW.RESIZABLE, true)
     GLFW.WindowHint(GLFW.MAXIMIZED, true)
 
+    # start first window
     addWindow(c)
+
     # enable v-sync, lock fps to native monitor
     GLFW.SwapInterval(1)
 
     # make Window visible (after setup is complete)
-    for (index, window) in c.windows
+    for window in c.windows
         GLFW.ShowWindow(window.openGLpointer)
     end
 end
 
 function _loop(c::Core)
-    exit = false
-    while !exit
-        for (index, window) in c.windows
+    while true
+        println(c.windows)
+        # should any window close?
+        for window in c.windows
             if GLFW.WindowShouldClose(window.openGLpointer)
-                removeWindow(c, index)
-                println(index)
+                removeWindow(c, findfirst(x -> x == window, c.windows))
             end
-
+        end
+        # there are no windows anymore
+        if isempty(c.windows)
+            break
+        end
+        # update all windows that are left
+        for window in c.windows
             # for every window sepperatly
-            GLFW.MakeContextCurrent(c.windows[c.index].openGLpointer)
+            GLFW.MakeContextCurrent(window.openGLpointer)
             GLFW.PollEvents()
 
+            # testing for multiple windows
             global k
             if isKeyPressed(k, GLFW.KEY_SPACE)
                 addWindow(c)
-                println(index)
             end
 
+            # clear window
             GLFW.SwapBuffers(window.openGLpointer)
-        end
-        # there are no windows anymore
-        if c.index < 1
-            println("set exit to true")
-            exit = true
         end
     end
 end
 
 function _post(c::Core)
-    println("in post")
-    # terminate() already called because of __init__
-    GLFW.DestroyWindow(c.windows[1].openGLpointer)
     GLFW.SetErrorCallback(nothing)
 
     # force garbage collection

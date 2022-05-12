@@ -7,6 +7,8 @@ Authors:
 ## Goals
 - This is my practice for software architecture and project developement in Julia.
 - learn OpenGL and Shader Language
+  
+### 100% Julia means 100% awesome
 
 ## Use
 The files: 
@@ -21,3 +23,6 @@ do what you expect them to do, just run them using the terminal.
 - work out how to test code
 - multiple window support with common backend
 - run tests of my dependencies when testing my app
+
+- get(dict, key, defvalue) fuer listeners
+- windows auf array umstellen

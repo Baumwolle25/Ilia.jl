@@ -10,5 +10,5 @@ mutable struct Window
     # standart empty consructor
     Window() = new(1280, 720, "Ilia.jl")
     # constructor with keyword arguments
-    Window(; width=1280, heigth=720, title="Ilia.jl", openGLpointer=undef, currentScene=undef) = new(width, heigth, title, openGLpointer, currentScene)
+    Window(; width=1280, heigth=720, title="Ilia.jl") = new(width, heigth, title)
 end

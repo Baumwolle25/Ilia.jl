@@ -51,5 +51,5 @@ function deltaY(m::Mouse)
 end
 
 function isButtonPressed(m::Mouse, button)
-    return m.mouseButtonPressed[button]
+    return get(m.mouseButtonPressed, button, false)
 end
