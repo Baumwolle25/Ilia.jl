@@ -1,9 +1,9 @@
 using Pkg
 
-push!(LOAD_PATH, "src/")
-
 Pkg.activate(".")
 Pkg.instantiate()
+
+push!(LOAD_PATH, "src/")
 
 using Ilia
 
