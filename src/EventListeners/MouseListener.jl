@@ -12,7 +12,7 @@ mutable struct Mouse
     Mouse(; scrollX=0, scrollY=0, xPos=0, yPos=0, lastX=0, lastY=0, isDraging=false, mouseButtonPressed=Dict{GLFW.Key,Bool}()) = new(scrollX, scrollY, xPos, yPos, lastX, lastY, isDraging, mouseButtonPressed)
 end
 
-function mousePosCallback(m::Mouse, window, xpos, ypos)
+function mousePosCallback(m::Mouse, xpos, ypos)
     m.lastX = m.xPos
     m.lastY = m.yPos
     m.xPos = xpos
@@ -21,7 +21,7 @@ function mousePosCallback(m::Mouse, window, xpos, ypos)
     m.isDraging = true in values(m.mouseButtonPressed)
 end
 
-function mouseButtonCallback(m::Mouse, window, button, action, mods)
+function mouseButtonCallback(m::Mouse, button, action, mods)
     if action == GLFW.PRESS
         m.mouseButtonPressed[button] = true
     elseif action == GLFW.RELEASE
@@ -30,7 +30,7 @@ function mouseButtonCallback(m::Mouse, window, button, action, mods)
     end
 end
 
-function mouseScrollCallback(m::Mouse, window, xOffset, yOffset)
+function mouseScrollCallback(m::Mouse, xOffset, yOffset)
     m.scrollX = xOffset
     m.scrollY = yOffset
 end

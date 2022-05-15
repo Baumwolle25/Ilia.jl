@@ -21,8 +21,5 @@ do what you expect them to do, just run them using the terminal.
 ## To-Do
 - work out healthy `module` architecture
 - work out how to test code
-- multiple window support with common backend
 - run tests of my dependencies when testing my app
-
-- get(dict, key, defvalue) fuer listeners
-- windows auf array umstellen
+- gamepad and joystick listeners

@@ -5,7 +5,7 @@ mutable struct Keyboard
     Keyboard(; keyPressed=Dict{GLFW.Key,Bool}()) = new(keyPressed)
 end
 
-function keyCallback(k::Keyboard, window, key, scancode, action, mods)
+function keyCallback(k::Keyboard, key, scancode, action, mods)
     if action == GLFW.PRESS
         k.keyPressed[key] = true
     elseif action == GLFW.RELEASE

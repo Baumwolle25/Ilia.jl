@@ -19,6 +19,8 @@ function run(c::Core)
     _post(c)
 end
 
+# what does that do? undocumented but in examples
+glClear() = ccall(@eval(GLFW.GetProcAddress("glClear")), Cvoid, (Cuint,), 0x00004000)
 
 function addWindow(c::Core)
     # array is ordered list so last() gives this new window
@@ -36,7 +38,7 @@ function addWindow(c::Core)
     end
 
     # set callbacks
-    setCallbacks(last(c.windows).openGLpointer)
+    setCallbacks(last(c.windows))
 
     GLFW.MakeContextCurrent(last(c.windows).openGLpointer)
 
@@ -67,16 +69,10 @@ function _pre(c::Core)
 
     # enable v-sync, lock fps to native monitor
     GLFW.SwapInterval(1)
-
-    # make Window visible (after setup is complete)
-    for window in c.windows
-        GLFW.ShowWindow(window.openGLpointer)
-    end
 end
 
 function _loop(c::Core)
     while true
-        println(c.windows)
         # should any window close?
         for window in c.windows
             if GLFW.WindowShouldClose(window.openGLpointer)
@@ -92,6 +88,7 @@ function _loop(c::Core)
             # for every window sepperatly
             GLFW.MakeContextCurrent(window.openGLpointer)
             GLFW.PollEvents()
+            glClear()
 
             # testing for multiple windows
             global k
