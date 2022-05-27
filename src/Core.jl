@@ -72,6 +72,7 @@ function _pre(c::Core)
 end
 
 function _loop(c::Core)
+    global t = Time()
     while true
         # should any window close?
         for window in c.windows
@@ -99,6 +100,8 @@ function _loop(c::Core)
             # clear window
             GLFW.SwapBuffers(window.openGLpointer)
         end
+        global t
+        time(t)
     end
 end
 

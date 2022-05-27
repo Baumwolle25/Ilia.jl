@@ -8,6 +8,7 @@ using Base.Threads
 Threads.nthreads() = Sys.CPU_THREADS
 
 # organize modules
+include("Utilities/Time.jl")
 include("EventListeners/MouseListener.jl")
 include("EventListeners/KeyListener.jl")
 include("EventListeners/WindowListener.jl")

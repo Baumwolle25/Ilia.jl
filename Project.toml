@@ -4,6 +4,7 @@ authors = ["Anton Stimmer <stimmer.anton@hm.edu>"]
 version = "0.0.1"
 
 [deps]
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 GLFW = "f7f18e0c-5ee9-5ccd-a5bf-e8befd85ed98"
 ModernGL = "66fc600b-dfda-50eb-8b99-91cfa97b1301"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
