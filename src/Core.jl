@@ -2,12 +2,13 @@
 mutable struct Core
     title::String
     windows::Array{Window,1}
+    currentScene::Scene
 
     # openGLpointer & currentScene get initialized as ::Undef
     # standart empty consructor
     Core() = new("Ilia.jl", Array{Window,1}())
     # constructor with keyword arguments
-    Core(; title="Ilia.jl", windows=Array{Window,1}()) = new(title, windows)
+    Core(; title="Ilia.jl", windows=Array{Window,1}(), currentScene=Scene()) = new(title, windows, currentScene)
 end
 
 # methods with multiple dispatch
@@ -21,38 +22,6 @@ end
 
 # what does that do? undocumented but in examples
 glClear() = ccall(@eval(GLFW.GetProcAddress("glClear")), Cvoid, (Cuint,), 0x00004000)
-
-function addWindow(c::Core)
-    # array is ordered list so last() gives this new window
-    push!(c.windows, Window(; title=c.title))
-
-    # configure GLFW
-    GLFW.DefaultWindowHints()
-    GLFW.WindowHint(GLFW.VISIBLE, false)
-    GLFW.WindowHint(GLFW.RESIZABLE, true)
-    GLFW.WindowHint(GLFW.MAXIMIZED, true)
-
-    last(c.windows).openGLpointer = GLFW.CreateWindow(last(c.windows).width, last(c.windows).heigth, last(c.windows).title)
-    if last(c.windows).openGLpointer == undef
-        throw(ErrorException("Failed to create GLFW Window."))
-    end
-
-    # set callbacks
-    setCallbacks(last(c.windows))
-
-    GLFW.MakeContextCurrent(last(c.windows).openGLpointer)
-
-    # make Window visible (after setup is complete)
-    GLFW.ShowWindow(last(c.windows).openGLpointer)
-end
-
-function removeWindow(c::Core, index)
-    # let glfw handle stuff
-    GLFW.DestroyWindow(c.windows[index].openGLpointer)
-
-    # clean up Core
-    popat!(c.windows, index)
-end
 
 function _pre(c::Core)
     # set error callback and load glfw
@@ -92,11 +61,16 @@ function _loop(c::Core)
             glClear()
 
             # testing for multiple windows
-            global k
-            if isKeyPressed(k, GLFW.KEY_SPACE)
+            if isKeyPressed(window.keyboard, GLFW.KEY_SPACE)
                 addWindow(c)
             end
 
+            global c
+            if isKeyPressed(window.keyboard, GLFW.KEY_1)
+                changeScene(c,1)
+            elseif isKeyPressed(window.keyboard, GLFW.KEY_2)
+                changeScene(c,2)
+            end
             # clear window
             GLFW.SwapBuffers(window.openGLpointer)
         end
@@ -113,6 +87,3 @@ function _post(c::Core)
     println("GLFW says: Goodbye!")
 end
 
-function changeScene(c::Core, index::Int)
-    pass
-end
