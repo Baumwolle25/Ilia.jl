@@ -15,6 +15,7 @@ function addWindow(c::Core)
 
     # set callbacks
     setCallbacks(last(c.windows))
+    initScene(c, c.currentScene)
 
     GLFW.MakeContextCurrent(last(c.windows).openGLpointer)
 

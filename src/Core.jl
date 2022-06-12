@@ -6,9 +6,10 @@ mutable struct Core
 
     # openGLpointer & currentScene get initialized as ::Undef
     # standart empty consructor
-    Core() = new("Ilia.jl", Array{Window,1}())
+    Core() = new("Ilia.jl", Array{Window,1}(), LevelEditorScene()
+    )
     # constructor with keyword arguments
-    Core(; title="Ilia.jl", windows=Array{Window,1}(), currentScene=Scene()) = new(title, windows, currentScene)
+    Core(; title="Ilia.jl", windows=Array{Window,1}(), currentScene=LevelEditorScene()) = new(title, windows, currentScene)
 end
 
 # methods with multiple dispatch
@@ -59,17 +60,19 @@ function _loop(c::Core)
             GLFW.MakeContextCurrent(window.openGLpointer)
             GLFW.PollEvents()
             glClear()
-
+            global c
+            updateScene(c, c.currentScene)
             # testing for multiple windows
             if isKeyPressed(window.keyboard, GLFW.KEY_SPACE)
                 addWindow(c)
             end
-
-            global c
+            # testing for scenes
             if isKeyPressed(window.keyboard, GLFW.KEY_1)
-                changeScene(c,1)
+                changeScene(c, 1)
+                initScene(c, c.currentScene)
             elseif isKeyPressed(window.keyboard, GLFW.KEY_2)
-                changeScene(c,2)
+                changeScene(c, 2)
+                initScene(c, c.currentScene)
             end
             # clear window
             GLFW.SwapBuffers(window.openGLpointer)

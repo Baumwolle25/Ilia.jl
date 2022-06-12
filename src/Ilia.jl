@@ -1,7 +1,7 @@
 module Ilia
 
 # all imports
-using GLFW
+using GLFW, ModernGL
 using Base.Threads
 
 # set threads to max
